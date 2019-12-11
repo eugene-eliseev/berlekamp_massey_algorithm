@@ -1,5 +1,6 @@
 from berlekamp.tools import reverse
 
+
 def berlekamp_massey_manual(sequence):
     # Первый шаг, задаём начальные данные
     n = len(sequence)
