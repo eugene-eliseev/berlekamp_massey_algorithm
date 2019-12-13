@@ -20,7 +20,7 @@ def main(p, sequence, skip, analyze_len, checks):
 
     shift = len(hack_seq) - 1
 
-    # Эта штука на самом деле ни на что не влияет в регистре (согласно его алгоритму), но нужна для верной инициализации регистра сидом
+    # Эта штука на самом деле ни на что не влияет в регистре (согласно его алгоритму), но нужна для верной инициализации регистра ФОСом
     hack_seq.append(1)
 
     # Инициализация второго регистра
@@ -30,14 +30,15 @@ def main(p, sequence, skip, analyze_len, checks):
     p.print("Создаём новый регистр и пропускаем его начальный выход для синхронизации с основным регистром: {}".format(gen_string_from_seq(hack_register.get_next_seq(shift))))
 
     # Выводим сравнение данных регистров
-    p.print("######################")
+    p.print("########### ФОС ###########") # сравнение функций обратной связи
     p.print(hack_register.get_cc())
     p.print(register.get_cc())
-    p.print("######################")
+    p.print("########### СИД ###########") # сравнение начальных сидов
     p.print(hack_register.get_reg())
     p.print(register.get_reg())
 
     # Тестируем регистры (если вдруг регистры разные)
+    p.print("Начинаем тестирование регистров. Число шагов: {}".format(checks))
     for i in range(checks):
         original = register.get_next()
         copy = hack_register.get_next()
@@ -63,8 +64,8 @@ if __name__ == "__main__":
     # Длина анализируемой последовательности (надо L * 2)
     analyze_len = 16
 
-    # Число сверок регистров
-    checks = 1638400
+    # Число сверок регистров. Должно быть равно 2^L - 1
+    checks = 2 ** len(sequence) - 1
 
     main(p, sequence, skip, analyze_len, checks)
 
